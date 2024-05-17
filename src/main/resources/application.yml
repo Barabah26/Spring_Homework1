@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: spring_homework
+
+server:
+  port: 9000
+
