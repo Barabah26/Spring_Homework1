@@ -4,6 +4,7 @@ import com.example.spring_homework.Homework1.domain.Account;
 import com.example.spring_homework.Homework1.domain.Customer;
 import com.example.spring_homework.Homework1.dto.AccountDto;
 import com.example.spring_homework.Homework1.dto.CustomerDto;
+import com.example.spring_homework.Homework1.service.DefaultAccountService;
 import com.example.spring_homework.Homework1.service.DefaultCustomerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
@@ -81,7 +82,8 @@ public class CustomerController {
                 currentCustomer.setAge(customerDto.getAge());
             }
 
-            Customer updatedCustomer = customerService.update(currentCustomer);
+            Customer updatedCustomer = customerService.update(id, currentCustomer);
+
             if (updatedCustomer != null) {
                 return ResponseEntity.ok(updatedCustomer);
             } else {
@@ -115,7 +117,7 @@ public class CustomerController {
         try {
             Customer customer = customerService.getOne(customerId);
             customerService.createAccountForCustomer(customer.getId(), accountDto.getCurrency(), accountDto.getBalance());
-            customerService.update(customer);
+            customerService.update(customerId, customer);
             return ResponseEntity.ok(customer);
         } catch (RuntimeException e) {
             log.error("Customer not found with ID " + customerId, e);
@@ -137,7 +139,7 @@ public class CustomerController {
             }
             if (accountToDelete != null) {
                 customerService.deleteAccountFromCustomer(customer.getId(), accountToDelete.getNumber());
-                customerService.update(customer);
+                customerService.update(customerId, customer);
                 return ResponseEntity.ok("Account successfully deleted");
             } else {
                 return ResponseEntity.badRequest().body("Account with number " + accountNumber + " not found");

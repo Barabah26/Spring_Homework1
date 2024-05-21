@@ -1,5 +1,7 @@
 package com.example.spring_homework.Homework1.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import java.util.UUID;
 
 public class Account {
@@ -7,6 +9,7 @@ public class Account {
     private String number;
     private Currency currency;
     private Double balance;
+    @JsonBackReference
     private Customer customer;
 
     public Account(Currency currency, Customer customer) {
@@ -62,8 +65,8 @@ public class Account {
                 "id=" + id +
                 ", number='" + number + '\'' +
                 ", currency=" + currency +
-                ", balance=" + balance +
                 ", customer=" + customer +
+                ", balance=" + balance +
                 '}';
     }
 }

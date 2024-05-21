@@ -1,5 +1,7 @@
 package com.example.spring_homework.Homework1.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +10,7 @@ public class Customer {
     private String name;
     private String email;
     private Integer age;
+    @JsonManagedReference
     private List<Account> accounts;
 
     public Customer(String name, String email, Integer age) {

@@ -3,6 +3,7 @@ package com.example.spring_homework.Homework1.service;
 import com.example.spring_homework.Homework1.domain.Account;
 import com.example.spring_homework.Homework1.domain.Currency;
 import com.example.spring_homework.Homework1.domain.Customer;
+import com.example.spring_homework.Homework1.dto.CustomerDto;
 
 import java.util.List;
 
@@ -16,6 +17,6 @@ public interface CustomerService {
     Customer getOne(long id);
     void createAccountForCustomer(Long id, Currency currency, Double amount);
     void deleteAccountFromCustomer(Long customerId, String accountNumber);
-    Customer update(Customer updatedCustomer);
+    Customer update(Long id, Customer updatedCustomer);
     void assignAccountsToCustomers();
 }

@@ -5,6 +5,7 @@ import com.example.spring_homework.Homework1.dao.CustomerDao;
 import com.example.spring_homework.Homework1.domain.Account;
 import com.example.spring_homework.Homework1.domain.Currency;
 import com.example.spring_homework.Homework1.domain.Customer;
+import com.example.spring_homework.Homework1.dto.CustomerDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -103,8 +104,22 @@ public class DefaultCustomerService implements CustomerService {
     }
 
     @Override
-    public Customer update(Customer updatedCustomer){
-        return customerDao.update(updatedCustomer);
+    public Customer update(Long id, Customer customer) {
+        Customer currentCustomer = customerDao.getOne(id);
+        if (currentCustomer == null) {
+            throw new IllegalArgumentException("Customer with id " + id + " not found");
+        }
+
+        currentCustomer.setName(customer.getName());
+        currentCustomer.setEmail(customer.getEmail());
+        currentCustomer.setAge(customer.getAge());
+
+        for (Account account : currentCustomer.getAccounts()) {
+            account.setCustomer(currentCustomer);
+            accountDao.update(account);
+        }
+
+        return customerDao.update(currentCustomer);
     }
 
     @Override
